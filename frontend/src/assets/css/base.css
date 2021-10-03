@@ -1,5 +1,8 @@
-body, .app{
-    max-width: 580px;
-    margin: 0 auto;
-    height: 100%;
+body,
+.app {
+  max-width: 580px;
+  margin: 0 auto;
+  height: 100%;
+  font-size: 14px;
+  font-family: Helvetica, Arial, sans-serif;
 }
