@@ -1,6 +1,7 @@
 <script setup></script>
 
 <template>
+  <p>8 totals</p>
   <ul class="movie-list">
     <li v-for="i in 8">
       Dead Poets Society-1991

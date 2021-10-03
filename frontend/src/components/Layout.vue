@@ -16,8 +16,6 @@ const isLogin = ref(false); // 已登录
     <el-header>
       <WatchHeader />
     </el-header>
-
-    <p>8 totals</p>
     <el-main>
       <router-view />
     </el-main>

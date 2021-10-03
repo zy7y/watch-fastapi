@@ -1,21 +1,28 @@
 <script setup>
+import { useRouter } from "vue-router";
+
 defineProps({
   isLogin: {
     type: Boolean,
     default: false,
   },
 });
+
+const router = useRouter();
+// 获取到当前项目的所有前端路由
+const currentRouters = router.getRoutes();
 </script>
 
 <template>
-  <el-menu :default-active="1" mode="horizontal" @select="handleSelect">
-    <el-menu-item index="1">Home</el-menu-item>
-    <template v-if="!isLogin">
-      <el-menu-item index="2">Login</el-menu-item>
-    </template>
-    <template v-else>
-      <el-menu-item index="2">Settings</el-menu-item>
-      <el-menu-item index="3">Logout</el-menu-item>
+  <el-menu :default-active="1" mode="horizontal" router>
+    <el-menu-item index="/">Home</el-menu-item>
+    <template v-for="router in currentRouters">
+      <template v-if="!isLogin && !router.meta.isLogin && router.meta.isNav">
+        <el-menu-item :index="router.path">{{ router.name }}</el-menu-item>
+      </template>
+      <template v-else-if="isLogin && router.meta.isLogin && router.meta.isNav">
+        <el-menu-item :index="router.path">{{ router.name }}</el-menu-item>
+      </template>
     </template>
   </el-menu>
 </template>
