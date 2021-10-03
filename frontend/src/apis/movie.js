@@ -1,15 +1,15 @@
-import { request } from '@/utils/request'
+import { request } from "@/utils/request";
 
-const URL = "/movie"
+const URL = "/movie";
 
 /**
  * 获取电影列表接口
  * @returns {AxiosPromise}
  */
-export function getMovieList(){
-    return request({
-        url: URL
-    })
+export function getMovieList() {
+  return request({
+    url: URL,
+  });
 }
 
 /**
@@ -17,11 +17,11 @@ export function getMovieList(){
  * @param id 电影id
  * @returns {AxiosPromise}
  */
-export function delMovie(id){
-    return request({
-        url: `${URL}/${id}`,
-        method: "delete",
-    })
+export function delMovie(id) {
+  return request({
+    url: `${URL}/${id}`,
+    method: "delete",
+  });
 }
 
 /**
@@ -30,15 +30,15 @@ export function delMovie(id){
  * @returns {AxiosPromise}
  */
 export function getMovie(id) {
-    return request({
-        url: `${URL}/${id}`,
-    })
+  return request({
+    url: `${URL}/${id}`,
+  });
 }
 
 export function updateMovie(id, data) {
-    return request({
-        url: `${URL}/${id}`,
-        method:  "put",
-        data
-    })
+  return request({
+    url: `${URL}/${id}`,
+    method: "put",
+    data,
+  });
 }

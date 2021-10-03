@@ -6,7 +6,12 @@ import "normalize.css";
 import "@/assets/css/base.css";
 
 import router from "@/router";
+import store from "@/store";
+
+// 每次启动时 加载浏览器缓存到vuex中
+store.dispatch("loadLocalStorage");
 
 const app = createApp(App);
 app.use(router);
+app.use(store);
 app.mount("#app");

@@ -1,18 +1,18 @@
 <script setup>
 import { getMovieList } from "@/apis/movie";
-import { computed, ref } from 'vue'
+import { computed, ref } from "vue";
 
-const moves = ref([])
+const moves = ref([]);
 
-getMovieList().then(res => moves.value = res).catch(err => console.log(err))
+getMovieList()
+  .then((res) => (moves.value = res))
+  .catch((err) => console.log(err));
 
-const imdbSearch = computed(()=>{
+const imdbSearch = computed(() => {
   return (movieName) => {
-    return `https://www.imdb.com/find?q=${movieName}`
-  }
-})
-
-
+    return `https://www.imdb.com/find?q=${movieName}`;
+  };
+});
 </script>
 
 <template>
@@ -26,11 +26,7 @@ const imdbSearch = computed(()=>{
           <el-button size="mini">delete</el-button>
         </template>
         <el-button size="mini" class="imdb">
-          <a
-            class="imdb"
-            :href="imdbSearch(movie.name)"
-            target="_blank"
-          >
+          <a class="imdb" :href="imdbSearch(movie.name)" target="_blank">
             IMDb
           </a>
         </el-button>

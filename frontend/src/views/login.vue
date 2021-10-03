@@ -1,17 +1,19 @@
 <script setup>
-import { reactive } from 'vue'
+import { reactive } from "vue";
+import { useStore } from "vuex";
 
-import login from '@/apis/user'
+const store = useStore();
 
 const loginForm = reactive({
   username: "test",
-  password: "123456"
-})
+  password: "123456",
+});
 
-const loginBtnClick = () =>{
-  login(loginForm).then(res => console.log(res)).catch(err => console.log(err))
-}
-
+const loginBtnClick = () => {
+  // 表单验证..
+  // 1. 调用vuex 登录
+  store.dispatch("userLoginAction", loginForm);
+};
 </script>
 
 <template>

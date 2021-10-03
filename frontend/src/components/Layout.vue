@@ -2,19 +2,20 @@
 import WatchHeader from "@/components/WatchHeader.vue";
 import WatchFoter from "@/components/WatchFoter.vue";
 
-import { ref } from "vue";
-const isLogin = ref(false); // 已登录
+import { useStore } from "vuex";
+
+const store = useStore();
 </script>
 
 <template>
   <el-container>
     <h2>
       <img src="@/assets/img/avatar.png" style="width: 40px" />
-      FastAPI WatchList Project
+      {{ store.getters.title }} WatchList
     </h2>
 
     <el-header>
-      <WatchHeader />
+      <WatchHeader :isLogin="store.state.token ? true : false" />
     </el-header>
     <el-main>
       <router-view />

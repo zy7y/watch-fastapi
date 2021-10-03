@@ -49,11 +49,12 @@ const router = createRouter({
   routes, // `routes: routes` 的缩写
 });
 
-// 导航守卫
-router.beforeEach((to, from) => {
-  console.log(to, from);
-  console.log(to.path, from.path);
-  return true;
+// 导航守卫, 没登录跳转登录页
+router.beforeEach((to) => {
+  if (to.path !== "/login") {
+    if (!window.localStorage.getItem("token")) {
+      return "/login";
+    }
+  }
 });
-
 export default router;
