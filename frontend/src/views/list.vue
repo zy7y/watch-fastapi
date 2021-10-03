@@ -1,10 +1,24 @@
-<script setup></script>
+<script setup>
+import getMovieList from "@/apis/movie";
+import { computed, ref } from 'vue'
+
+const moves = ref([])
+
+getMovieList().then(res => moves.value = res).catch(err => console.log(err))
+
+const imdbSearch = computed(()=>{
+  return (movieName) => {
+    return `https://www.imdb.com/find?q=${movieName}`
+  }
+})
+
+</script>
 
 <template>
-  <p>8 totals</p>
+  <p>{{ moves.total }} Titles</p>
   <ul class="movie-list">
-    <li v-for="i in 8">
-      Dead Poets Society-1991
+    <li v-for="movie in moves.movies">
+      {{ movie.name }}-{{ movie.year }}
       <span class="float-right">
         <template v-if="isLogin">
           <el-button size="mini">edit</el-button>
@@ -13,7 +27,7 @@
         <el-button size="mini" class="imdb">
           <a
             class="imdb"
-            href="https://www.imdb.com/find?q=Dead Poets Society"
+            :href="imdbSearch(movie.name)"
             target="_blank"
           >
             IMDb

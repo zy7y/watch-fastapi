@@ -1,4 +1,18 @@
-<script setup></script>
+<script setup>
+import { reactive } from 'vue'
+
+import login from '@/apis/user'
+
+const loginForm = reactive({
+  username: "test",
+  password: "123456"
+})
+
+const loginBtnClick = () =>{
+  login(loginForm).then(res => console.log(res)).catch(err => console.log(err))
+}
+
+</script>
 
 <template>
   <h3>Login</h3>
@@ -7,15 +21,16 @@
     label-width="120px"
     class="demo-ruleForm"
     label-position="top"
+    :model="loginForm"
   >
     <el-form-item label="username">
-      <el-input></el-input>
+      <el-input v-model="loginForm.username"></el-input>
     </el-form-item>
     <el-form-item label="password">
-      <el-input></el-input>
+      <el-input v-model="loginForm.password" show-password></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary">Submit</el-button>
+      <el-button type="primary" @click="loginBtnClick">Submit</el-button>
     </el-form-item>
   </el-form>
 </template>
