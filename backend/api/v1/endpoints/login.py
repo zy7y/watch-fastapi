@@ -21,7 +21,7 @@ async def user_login(request: Request, form_data: OAuth2PasswordRequestForm = De
         if verify_password(form_data.password, user.password):
             token = create_access_token({"sub": user.username})
             # s
-            await request.app.state.redis.set(user.username, token, 180)
+            # await request.app.state.redis.set(user.username, token, 180)
             return ResponseToken(data={"token": f"bearer {token}"}, access_token=token)
     return Response400(msg="请求失败.")
 

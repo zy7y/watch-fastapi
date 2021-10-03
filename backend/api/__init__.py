@@ -18,16 +18,16 @@ app.include_router(v1, prefix="/api")
 
 
 # 可以不要
-@app.on_event("startup")
-async def startup():
-    """aioredis"""
-    app.state.redis: Redis = await aioredis.from_url("redis://127.0.0.1:6379",  decode_responses=True)
-
-
-@app.on_event("shutdown")
-async def shutdown():
-    """close redis"""
-    await app.state.redis.close()
+# @app.on_event("startup")
+# async def startup():
+#     """aioredis"""
+#     app.state.redis: Redis = await aioredis.from_url("redis://127.0.0.1:6379",  decode_responses=True)
+#
+#
+# @app.on_event("shutdown")
+# async def shutdown():
+#     """close redis"""
+#     await app.state.redis.close()
 
 
 app.add_middleware(
