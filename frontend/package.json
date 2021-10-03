@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.22.0",
     "element-plus": "^1.1.0-beta.19",
+    "normalize.css": "^8.0.1",
     "vue": "^3.2.16",
     "vue-router": "^4.0.11",
     "vuex": "^4.0.2"
