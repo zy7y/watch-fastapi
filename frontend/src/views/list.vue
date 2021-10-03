@@ -1,5 +1,5 @@
 <script setup>
-import getMovieList from "@/apis/movie";
+import { getMovieList } from "@/apis/movie";
 import { computed, ref } from 'vue'
 
 const moves = ref([])
@@ -11,6 +11,7 @@ const imdbSearch = computed(()=>{
     return `https://www.imdb.com/find?q=${movieName}`
   }
 })
+
 
 </script>
 
