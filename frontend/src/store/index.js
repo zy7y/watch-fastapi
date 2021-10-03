@@ -6,12 +6,12 @@ const store = createStore({
   //  数据 store.state.token
   state: {
     token: "",
-    username: "",
+    nickname: "",
   },
   // 计算属性的作用 store.getters.title
   getters: {
     title: (state) => {
-      return state.username + "'s";
+      return state.nickname + "'s";
     },
   },
   //  要变动数据需要调用 context.commit('increment')
@@ -19,8 +19,8 @@ const store = createStore({
     changeToken(state, payload) {
       state.token = payload;
     },
-    changeUsername(state, payload) {
-      state.username = payload;
+    changeNickname(state, payload) {
+      state.nickname = payload;
     },
   },
   actions: {
@@ -36,10 +36,10 @@ const store = createStore({
       window.localStorage.setItem("token", token);
       //    4. 请求用户信息接口
       const resUser = await userInfo();
-      const username = resUser.username;
+      const nickname = resUser.nickname;
       //    5. username 存到 vuex 和 浏览器缓存中
-      commit("changeUsername", username);
-      window.localStorage.setItem("username", username);
+      commit("changeNickname", nickname);
+      window.localStorage.setItem("nickname", nickname);
       //    6. 跳转到首页
       await router.push("/");
     },
@@ -53,9 +53,9 @@ const store = createStore({
       if (token) {
         commit("changeToken", token);
       }
-      const username = window.localStorage.getItem("username");
-      if (username) {
-        commit("changeUsername", username);
+      const nickname = window.localStorage.getItem("nickname");
+      if (nickname) {
+        commit("changeNickname", nickname);
       }
     },
   },

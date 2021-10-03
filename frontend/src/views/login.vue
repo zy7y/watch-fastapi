@@ -1,6 +1,8 @@
 <script setup>
 import { reactive } from "vue";
 import { useStore } from "vuex";
+import { ref } from "vue";
+import { ElMessage } from "element-plus";
 
 const store = useStore();
 
@@ -9,10 +11,50 @@ const loginForm = reactive({
   password: "123456",
 });
 
+const rules = {
+  username: [
+    {
+      required: true,
+      message: "请输入你的用户名",
+      trigger: "blur",
+    },
+    {
+      min: 3,
+      max: 20,
+      message: "长度必须是 3 to 20",
+      trigger: "blur",
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: "请输入你的密码",
+      trigger: "change",
+    },
+    {
+      min: 6,
+      max: 12,
+      message: "长度必须是 6 to 12",
+      trigger: "blur",
+    },
+  ],
+};
+
+const ruleForm = ref();
+
 const loginBtnClick = () => {
   // 表单验证..
-  // 1. 调用vuex 登录
-  store.dispatch("userLoginAction", loginForm);
+  ruleForm.value.validate((valid) => {
+    if (valid) {
+      store.dispatch("userLoginAction", loginForm);
+      ElMessage({
+        message: "成功登录.",
+        type: "success",
+      });
+    } else {
+      return false;
+    }
+  });
 };
 </script>
 
@@ -24,11 +66,12 @@ const loginBtnClick = () => {
     class="demo-ruleForm"
     label-position="top"
     :model="loginForm"
+    :rules="rules"
   >
-    <el-form-item label="username">
+    <el-form-item label="username" prop="username">
       <el-input v-model="loginForm.username"></el-input>
     </el-form-item>
-    <el-form-item label="password">
+    <el-form-item label="password" prop="password">
       <el-input v-model="loginForm.password" show-password></el-input>
     </el-form-item>
     <el-form-item>

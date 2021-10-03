@@ -1,5 +1,7 @@
 <script setup>
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { ElMessage } from "element-plus";
 
 defineProps({
   isLogin: {
@@ -9,13 +11,28 @@ defineProps({
   },
 });
 
+const store = useStore();
+
 const router = useRouter();
 // 获取到当前项目的所有前端路由
 const currentRouters = router.getRoutes();
+
+// 菜单点击事件
+const handleSelect = (index) => {
+  if (index === "/logout") {
+    window.localStorage.removeItem("token");
+    store.commit("changeToken", false);
+    ElMessage({
+      message: "退出登录.",
+      type: "success",
+    });
+    router.push("/");
+  }
+};
 </script>
 
 <template>
-  <el-menu :default-active="1" mode="horizontal" router>
+  <el-menu default-active="/" mode="horizontal" router @select="handleSelect">
     <el-menu-item index="/">Home</el-menu-item>
     <template v-for="router in currentRouters">
       <template v-if="!isLogin && !router.meta.isLogin && router.meta.isNav">
