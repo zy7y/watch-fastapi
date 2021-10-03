@@ -1,0 +1,5 @@
+body, .app{
+    max-width: 580px;
+    margin: 0 auto;
+    height: 100%;
+}
