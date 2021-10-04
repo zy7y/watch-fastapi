@@ -18,10 +18,14 @@ export function userInfo() {
   });
 }
 
-export function updateUser(data) {
+export function updateUser(nickname) {
   return request({
     url: URL,
     method: "put",
-    data,
+    data: {
+      nickname,
+      password:'',
+      username: ''
+    }
   });
 }
