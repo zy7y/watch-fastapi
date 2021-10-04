@@ -15,10 +15,7 @@ export function request(config) {
   instance.interceptors.request.use(
     (config) => {
       // 获取token 从浏览器缓存
-      // const token = window.localStorage.getItem('token')
-
-      // 从 vuex 中获取token
-      const token = store.state.token;
+      const token = window.localStorage.getItem('token')
       if (token) {
         config.headers.Authorization = token;
       }

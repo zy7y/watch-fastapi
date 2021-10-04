@@ -20,7 +20,7 @@ const currentRouters = router.getRoutes();
 // 菜单点击事件
 const handleSelect = (index) => {
   if (index === "/logout") {
-    window.localStorage.removeItem("token");
+    window.localStorage.clear();
     store.commit("changeToken", false);
     ElMessage({
       message: "退出登录.",
