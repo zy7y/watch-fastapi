@@ -6,9 +6,10 @@ const URL = "/movie";
  * 获取电影列表接口
  * @returns {AxiosPromise}
  */
-export function getMovieList() {
+export function getMovieList(params) {
   return request({
     url: URL,
+    params,
   });
 }
 

@@ -14,7 +14,7 @@ async def movie_list(limit: int = 10, page: int = 1):
     skip = (page - 1) * limit
     data = {
         "total": await Movie.all().count(),
-        "movies": await Movie_Pydantic.from_queryset(Movie.all().offset(skip).limit(limit))
+        "movies": await Movie_Pydantic.from_queryset(Movie.all().offset(skip).limit(limit).order_by('-id'))
     }
     return Response200(data=data)
 

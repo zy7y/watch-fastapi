@@ -1,6 +1,6 @@
 <script setup>
 import { getMovieList, addMovie, delMovie } from "@/apis/movie";
-import { computed, ref, reactive, onMounted } from "vue";
+import { computed, ref, reactive, onMounted, watch } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
@@ -8,7 +8,7 @@ onMounted(() => {
   getMovies;
 });
 
-const moves = ref([]);
+const movies = ref([]);
 
 const store = useStore();
 const router = useRouter();
@@ -50,6 +50,23 @@ const rules = {
 
 const ruleForm = ref(null);
 
+const currentPageSize = reactive({
+  limit: 10,
+  page: 1,
+});
+
+watch(currentPageSize, (oldV, newV) => {
+  getMovieList(newV).then((res) => (movies.value = res));
+});
+
+const handleSizeChange = (currentSize) => {
+  currentPageSize.limit = currentSize;
+};
+
+const handleCurrentChange = (currentPage) => {
+  currentPageSize.page = currentPage;
+};
+
 // 计算属性
 const imdbSearch = computed(() => {
   return (movieName) => {
@@ -57,8 +74,8 @@ const imdbSearch = computed(() => {
   };
 });
 
-const getMovies = getMovieList()
-  .then((res) => (moves.value = res))
+const getMovies = getMovieList(currentPageSize)
+  .then((res) => (movies.value = res))
   .catch((err) => console.log(err));
 
 const onSubmit = () => {
@@ -66,9 +83,7 @@ const onSubmit = () => {
     if (valid) {
       addMovie(formInline)
         .then((res) => {
-          getMovieList()
-            .then((res) => (moves.value = res))
-            .catch((err) => console.log(err));
+          getMovieList(currentPageSize).then((res) => (movies.value = res));
         })
         .catch((err) => console.log(err));
     } else {
@@ -80,9 +95,7 @@ const onSubmit = () => {
 const delBtnClick = (id) => {
   delMovie(id)
     .then((res) => {
-      getMovieList()
-        .then((res) => (moves.value = res))
-        .catch((err) => console.log(err));
+      getMovieList(currentPageSize).then((res) => (movies.value = res));
     })
     .catch((err) => console.log(err));
 };
@@ -93,7 +106,7 @@ const editBtnClick = (movie) => {
 </script>
 
 <template>
-  <p>{{ moves.total }} Titles</p>
+  <p>{{ movies.total }} Titles</p>
   <template v-if="isLogin">
     <el-form
       :inline="true"
@@ -114,7 +127,7 @@ const editBtnClick = (movie) => {
     </el-form>
   </template>
   <ul class="movie-list">
-    <li v-for="movie in moves.movies">
+    <li v-for="movie in movies.movies">
       {{ movie.name }} - {{ movie.year }}
       <span class="float-right">
         <template v-if="isLogin">
@@ -131,6 +144,16 @@ const editBtnClick = (movie) => {
       </span>
     </li>
   </ul>
+  <el-pagination
+    v-model:currentPage="currentPageSize.page"
+    :page-sizes="[1, 5, 10]"
+    :page-size="currentPageSize.size"
+    layout="sizes, prev, pager, next"
+    :total="movies.total"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+  >
+  </el-pagination>
   <img src="@/assets/img/totoro.gif" class="dudu" />
 </template>
 
@@ -161,6 +184,8 @@ const editBtnClick = (movie) => {
   color: black !important;
   border: 1px solid #555555 !important;
   border-radius: 5px !important;
+  margin-top: -5px !important;
+  vertical-align: middle !important;
 }
 
 .imdb {

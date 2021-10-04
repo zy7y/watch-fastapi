@@ -1,8 +1,6 @@
 """
 create app
 """
-import aioredis
-from aioredis import Redis
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
