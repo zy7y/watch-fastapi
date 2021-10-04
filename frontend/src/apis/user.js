@@ -24,8 +24,8 @@ export function updateUser(nickname) {
     method: "put",
     data: {
       nickname,
-      password:'',
-      username: ''
-    }
+      password: "",
+      username: "",
+    },
   });
 }
