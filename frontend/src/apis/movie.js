@@ -12,6 +12,14 @@ export function getMovieList() {
   });
 }
 
+export function addMovie(data) {
+  return request({
+    url: URL,
+    method: 'post',
+    data: data
+  })
+}
+
 /**
  * 删除电影接口
  * @param id 电影id

@@ -3,7 +3,7 @@
 import {useStore} from 'vuex'
 import { ref } from 'vue'
 import { updateUser } from "@/apis/user";
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 
 const store = useStore()
 
@@ -25,7 +25,7 @@ const saveBtnClick = () => {
 
 <template>
   <h3>settings</h3>
-  Your Name <input v-model="nickname">
+  Your Name <input v-model="nickname" required="required" />
   <button @click="saveBtnClick">save</button>
 </template>
 

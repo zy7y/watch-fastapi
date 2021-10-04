@@ -1,25 +1,100 @@
 <script setup>
-import { getMovieList } from "@/apis/movie";
-import { computed, ref } from "vue";
+import { getMovieList, addMovie } from "@/apis/movie";
+import { computed, ref, reactive, onMounted } from "vue";
+import { useStore } from 'vuex'
+
+onMounted(()=>{
+  getMovies
+})
 
 const moves = ref([]);
 
-getMovieList()
-  .then((res) => (moves.value = res))
-  .catch((err) => console.log(err));
+const store = useStore()
 
+const isLogin = store.state.token?true:false
+
+const formInline = reactive({
+  name: '',
+  year: ''
+})
+
+const rules = {
+  name: [{
+            required: true,
+            message: '请输入电影名称',
+            trigger: 'blur',
+          },
+          {
+            min: 3,
+            message: 'Length should 3 ',
+            trigger: 'blur',
+          }],
+  year: [{
+            required: true,
+            message: '请输入电影年份',
+            trigger: 'blur',
+          },
+          {
+            min: 4,
+            max: 4,
+            message: 'Length should 4 ',
+            trigger: 'blur',
+          }]
+}
+
+const ruleForm = ref(null)
+
+
+// 计算属性
 const imdbSearch = computed(() => {
   return (movieName) => {
     return `https://www.imdb.com/find?q=${movieName}`;
   };
 });
+
+const getMovies = getMovieList()
+  .then((res) => (moves.value = res))
+  .catch((err) => console.log(err));
+
+
+
+const onSubmit = () => {
+  ruleForm.value.validate((valid) => {
+        if (valid) {
+           addMovie(formInline).then(res => {
+              getMovieList()
+  .then((res) => (moves.value = res))
+  .catch((err) => console.log(err));
+           }).catch(err => console.log(err))
+        } else {
+          return false
+        }
+      })
+}
 </script>
 
 <template>
   <p>{{ moves.total }} Titles</p>
+  <telmpat v-show="isLogin">
+    <el-form :inline="true"
+           :model="formInline"
+           class="demo-form-inline"
+           :rules="rules" ref="ruleForm"
+    >
+    <el-form-item label="name" prop="name" >
+      <el-input v-model="formInline.name" ></el-input>
+    </el-form-item>
+    <el-form-item label="year" prop="year">
+      <el-input v-model="formInline.year" ></el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="onSubmit">Save</el-button>
+    </el-form-item>
+  </el-form>
+  </telmpat>
   <ul class="movie-list">
     <li v-for="movie in moves.movies">
-      {{ movie.name }}-{{ movie.year }}
+      {{ movie.name }} - {{ movie.year }}
       <span class="float-right">
         <template v-if="isLogin">
           <el-button size="mini">edit</el-button>

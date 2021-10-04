@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from "@/store";
+import {ElMessage} from "element-plus";
 
 // 使用 export defalut 就不需要导入时 解包操作 {}
 export function request(config) {
@@ -29,6 +29,10 @@ export function request(config) {
   // 响应
   instance.interceptors.response.use(
     (res) => {
+        ElMessage({
+        message: res.data.msg,
+        type: "success",
+      });
       return res.data.data;
     },
     (error) => {
