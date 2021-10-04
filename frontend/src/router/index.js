@@ -32,7 +32,8 @@ const routes = [
     },
   },
   {
-    path: "/edit/:id",
+    path: "/movie/edit/:id",
+    name: "edit",
     props: true,
     component: () => import("@/views/edit.vue"),
   },

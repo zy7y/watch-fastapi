@@ -1,7 +1,8 @@
 <script setup>
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { useStore } from "vuex";
 import { ElMessage } from "element-plus";
+import { ref } from "vue";
 
 defineProps({
   isLogin: {
@@ -16,6 +17,9 @@ const store = useStore();
 const router = useRouter();
 // 获取到当前项目的所有前端路由
 const currentRouters = router.getRoutes();
+
+// 当前路由对象
+const routes = useRoute();
 
 // 菜单点击事件
 const handleSelect = (index) => {
@@ -32,7 +36,12 @@ const handleSelect = (index) => {
 </script>
 
 <template>
-  <el-menu default-active="/" mode="horizontal" router @select="handleSelect">
+  <el-menu
+    :default-active="routes.path"
+    mode="horizontal"
+    router
+    @select="handleSelect"
+  >
     <el-menu-item index="/">Home</el-menu-item>
     <template v-for="router in currentRouters">
       <template v-if="!isLogin && !router.meta.isLogin && router.meta.isNav">

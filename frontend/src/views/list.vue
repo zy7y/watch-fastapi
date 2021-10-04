@@ -1,49 +1,54 @@
 <script setup>
-import { getMovieList, addMovie } from "@/apis/movie";
+import { getMovieList, addMovie, delMovie } from "@/apis/movie";
 import { computed, ref, reactive, onMounted } from "vue";
-import { useStore } from 'vuex'
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-onMounted(()=>{
-  getMovies
-})
+onMounted(() => {
+  getMovies;
+});
 
 const moves = ref([]);
 
-const store = useStore()
+const store = useStore();
+const router = useRouter();
 
-const isLogin = store.state.token?true:false
+const isLogin = store.state.token ? true : false;
 
 const formInline = reactive({
-  name: '',
-  year: ''
-})
+  name: "",
+  year: "",
+});
 
 const rules = {
-  name: [{
-            required: true,
-            message: '请输入电影名称',
-            trigger: 'blur',
-          },
-          {
-            min: 3,
-            message: 'Length should 3 ',
-            trigger: 'blur',
-          }],
-  year: [{
-            required: true,
-            message: '请输入电影年份',
-            trigger: 'blur',
-          },
-          {
-            min: 4,
-            max: 4,
-            message: 'Length should 4 ',
-            trigger: 'blur',
-          }]
-}
+  name: [
+    {
+      required: true,
+      message: "请输入电影名称",
+      trigger: "blur",
+    },
+    {
+      min: 3,
+      message: "Length should 3 ",
+      trigger: "blur",
+    },
+  ],
+  year: [
+    {
+      required: true,
+      message: "请输入电影年份",
+      trigger: "blur",
+    },
+    {
+      min: 4,
+      max: 4,
+      message: "Length should 4 ",
+      trigger: "blur",
+    },
+  ],
+};
 
-const ruleForm = ref(null)
-
+const ruleForm = ref(null);
 
 // 计算属性
 const imdbSearch = computed(() => {
@@ -56,49 +61,67 @@ const getMovies = getMovieList()
   .then((res) => (moves.value = res))
   .catch((err) => console.log(err));
 
-
-
 const onSubmit = () => {
   ruleForm.value.validate((valid) => {
-        if (valid) {
-           addMovie(formInline).then(res => {
-              getMovieList()
-  .then((res) => (moves.value = res))
-  .catch((err) => console.log(err));
-           }).catch(err => console.log(err))
-        } else {
-          return false
-        }
-      })
-}
+    if (valid) {
+      addMovie(formInline)
+        .then((res) => {
+          getMovieList()
+            .then((res) => (moves.value = res))
+            .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
+    } else {
+      return false;
+    }
+  });
+};
+
+const delBtnClick = (id) => {
+  delMovie(id)
+    .then((res) => {
+      getMovieList()
+        .then((res) => (moves.value = res))
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
+};
+
+const editBtnClick = (movie) => {
+  router.push({ name: "edit", params: { ...movie } });
+};
 </script>
 
 <template>
   <p>{{ moves.total }} Titles</p>
-  <telmpat v-show="isLogin">
-    <el-form :inline="true"
-           :model="formInline"
-           class="demo-form-inline"
-           :rules="rules" ref="ruleForm"
+  <template v-if="isLogin">
+    <el-form
+      :inline="true"
+      :model="formInline"
+      class="demo-form-inline"
+      :rules="rules"
+      ref="ruleForm"
     >
-    <el-form-item label="name" prop="name" >
-      <el-input v-model="formInline.name" ></el-input>
-    </el-form-item>
-    <el-form-item label="year" prop="year">
-      <el-input v-model="formInline.year" ></el-input>
-    </el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="onSubmit">Save</el-button>
-    </el-form-item>
-  </el-form>
-  </telmpat>
+      <el-form-item label="name" prop="name">
+        <el-input v-model="formInline.name"></el-input>
+      </el-form-item>
+      <el-form-item label="year" prop="year">
+        <el-input v-model="formInline.year"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">Save</el-button>
+      </el-form-item>
+    </el-form>
+  </template>
   <ul class="movie-list">
     <li v-for="movie in moves.movies">
       {{ movie.name }} - {{ movie.year }}
       <span class="float-right">
         <template v-if="isLogin">
-          <el-button size="mini">edit</el-button>
-          <el-button size="mini">delete</el-button>
+          <el-button size="mini" @click="editBtnClick(movie)">edit</el-button>
+          <el-button size="mini" @click="delBtnClick(movie.id)"
+            >delete</el-button
+          >
         </template>
         <el-button size="mini" class="imdb">
           <a class="imdb" :href="imdbSearch(movie.name)" target="_blank">

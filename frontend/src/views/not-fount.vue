@@ -1,7 +1,8 @@
 <script setup></script>
 
 <template>
-  <h1>not-fount</h1>
+  <h3>not-fount</h3>
+  <router-link to="/">Go Back</router-link>
 </template>
 
 <style></style>

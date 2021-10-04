@@ -15,9 +15,9 @@ export function getMovieList() {
 export function addMovie(data) {
   return request({
     url: URL,
-    method: 'post',
-    data: data
-  })
+    method: "post",
+    data: data,
+  });
 }
 
 /**

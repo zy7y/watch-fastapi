@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ElMessage} from "element-plus";
+import { ElMessage } from "element-plus";
 
 // 使用 export defalut 就不需要导入时 解包操作 {}
 export function request(config) {
@@ -15,7 +15,7 @@ export function request(config) {
   instance.interceptors.request.use(
     (config) => {
       // 获取token 从浏览器缓存
-      const token = window.localStorage.getItem('token')
+      const token = window.localStorage.getItem("token");
       if (token) {
         config.headers.Authorization = token;
       }
@@ -29,7 +29,7 @@ export function request(config) {
   // 响应
   instance.interceptors.response.use(
     (res) => {
-        ElMessage({
+      ElMessage({
         message: res.data.msg,
         type: "success",
       });
