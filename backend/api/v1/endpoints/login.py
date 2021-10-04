@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.requests import Request
 
-from backend.models import User
-from backend.core import verify_password, create_access_token, deps
-from backend.scheams import (
+from models import User
+from core import verify_password, create_access_token, deps
+from scheams import (
     UserIn_Pydantic,
     Response400,
     ResponseToken,
@@ -32,7 +32,7 @@ async def user_logout(request: Request, user: User = Depends(deps.get_current_us
     return Response200()
 
 
-@login.post("/user", summary="用户新增", include_in_schema=False)
+@login.post("/user", summary="用户新增")
 async def user_create(user: UserIn_Pydantic):
     return Response200(
         data=await User_Pydantic.from_tortoise_orm(await User.create(**user.dict()))

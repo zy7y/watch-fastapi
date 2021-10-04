@@ -4,7 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 from tortoise.contrib.test import initializer, finalizer
 
-from backend.api import app
+from api import app
 
 
 @pytest.fixture(scope="module")

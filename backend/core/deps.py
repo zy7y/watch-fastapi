@@ -5,7 +5,7 @@ from jose import jwt, JWTError
 from fastapi.requests import Request
 
 from.config import settings
-from backend.models import User
+from models import User
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/login")

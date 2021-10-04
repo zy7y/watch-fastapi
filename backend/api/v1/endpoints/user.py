@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Body
 
-from backend.core import deps
+from core import deps
 
-from backend.scheams import User_Pydantic, UserIn_Pydantic, Response200, Response400
-from backend.models import User
+from scheams import User_Pydantic, UserIn_Pydantic, Response200, Response400
+from models import User
 
 user = APIRouter(tags=["用户相关"], dependencies=[Depends(deps.get_current_user)])
 

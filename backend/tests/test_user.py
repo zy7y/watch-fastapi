@@ -2,7 +2,7 @@ import asyncio
 
 from fastapi.testclient import TestClient
 
-from backend.models import User
+from models import User
 
 
 def test_create_user(client: TestClient, event_loop: asyncio.AbstractEventLoop):  # nosec

@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from .v1 import v1
-from backend.core import settings
+from core import settings
 
 
 app = FastAPI(title=settings.TITLE, description=settings.DESC)
@@ -40,7 +40,7 @@ app.add_middleware(
 register_tortoise(
     app,
     db_url="sqlite://watch.sqlite",
-    modules={"models": ["backend.models"]},
+    modules={"models": ["models"]},
     generate_schemas=True,
     add_exception_handlers=True,
 )

@@ -2,9 +2,9 @@ from typing import List, Any, Union
 
 from fastapi import APIRouter, Depends
 
-from backend.core import deps
-from backend.models import Movie
-from backend.scheams import Movie_Pydantic, MovieIn_Pydantic, Response200, Response400
+from core import deps
+from models import Movie
+from scheams import Movie_Pydantic, MovieIn_Pydantic, Response200, Response400
 
 movie = APIRouter(tags=["电影相关"])
 
