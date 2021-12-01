@@ -34,7 +34,7 @@ async def user_logout(request: Request, user: User = Depends(deps.get_current_us
 
 @login.post("/user", summary="用户新增")
 async def user_create(user: UserIn_Pydantic):
-    if user := await User.get(username=user.username):
+    if await User.filter(username=user.username):
         return Response400(msg="用户已存在.")
     return Response200(
         data=await User_Pydantic.from_tortoise_orm(await User.create(**user.dict()))
